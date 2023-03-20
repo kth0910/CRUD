@@ -1,0 +1,11 @@
+<h2>로그인</h2>
+
+<%= form_with(url: "/sessions/sign_in") do |f|%>
+    <%= f.label :identifier %>
+    <%= f.text_field :identifier %>
+<br>
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+<br>
+    <%= f.submit "로그인" %>
+<% end %>

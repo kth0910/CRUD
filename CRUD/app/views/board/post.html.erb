@@ -1,0 +1,43 @@
+<% if current_user.present? %>
+<div><%=current_user.nickname%>님, 안녕하세요!!</div>
+<%= link_to "로그아웃", sessions_sign_out_path, :method=>'delete' %>
+<hr />
+<% else %> <%= link_to "로그인", sessions_sign_in_path %> <%= link_to "회원가입", new_user_path %>
+<hr />
+<% end %>
+
+
+<h3><%= @post.nickname %>님의 <%= @post.id %>번째 글</h3>
+<h3>제목 : <%= @post.title %></h3>
+<h3><%= @post.content %></h3>
+<% if current_user.present? && session[:user_id] == 1 || current_user.present? && current_user.nickname == @post.nickname %>
+<a href="/edit?id=<%= @post.id %>">수정하기</a>
+<a href="/delete?id=<%= @post.id %>">삭제하기</a>
+<% else %>
+<% end %>
+
+
+<form action="/post/<%= @post.id %>/create" method='post'>
+	<% if current_user.present? %>
+	<input type="hidden" name="nickname" value=<%= current_user.nickname %> >
+	<% else %>
+	<input type="hidden" name="nickname" value="익명" >
+	<% end %>
+    
+	<input type="hidden" name="post_id" value=<%= @post.id %> >
+	<input type='text' name='content' >
+    <input type='submit' value='댓글 작성'>
+</form>
+
+<% @comments.each do |comment| %>
+<div>
+	<hr />
+	<h3><%= comment.nickname %>님 : <%= comment.content %></h3>
+	<% if current_user.present? && session[:user_id] == 1 || current_user.present? && current_user.nickname == comment.nickname %>
+	<a href="/post/<%= @post.id %>/edit/<%= comment.id %>">수정하기</a>
+	<a href="/post/<%= @post.id %>/delete/<%= comment.id %>">삭제하기</a>
+	<% else %>
+	<% end %>
+	<hr />
+</div>
+<% end %>

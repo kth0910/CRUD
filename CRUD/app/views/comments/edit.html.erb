@@ -1,0 +1,19 @@
+<% if current_user.present? %>
+<div><%=current_user.nickname%>님, 안녕하세요!!</div>
+<%= link_to "로그아웃", sessions_sign_out_path, :method=>'delete' %>
+<hr />
+<% else %> <%= link_to "로그인", sessions_sign_in_path %> <%= link_to "회원가입", new_user_path %>
+<hr />
+<% end %>
+
+
+<form action="/post/<%= @post.id %>/update/<%= @comment.id %>" method='post'>
+	<% if current_user.present? && session[:user_id] == 1 || current_user.present? && current_user.nickname == post.nickname %>
+	<input type="hidden" name="nickname" value=<%= current_user.nickname %> >
+	<% else %>
+	<input type="hidden" name="nickname" value="익명" >
+	<% end %>
+    
+	<input type='text' name='content' value= <%= @comment.content %> >
+    <input type='submit' value='댓글 수정'>
+</form>

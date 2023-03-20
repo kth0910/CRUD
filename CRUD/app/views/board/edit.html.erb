@@ -1,0 +1,15 @@
+<% if current_user.present? %>
+<div><%=current_user.nickname%>님, 안녕하세요!!</div>
+<%= link_to "로그아웃", sessions_sign_out_path, :method=>'delete' %>
+<hr />
+<% else %> <%= link_to "로그인", sessions_sign_in_path %> <%= link_to "회원가입", new_user_path %>
+<hr />
+<% end %>
+
+<form action="/update" method=post>
+	<input type="hidden" name="nickname" value="anonymous">
+	<input type="hidden" name="id" value=<%= @post.id %>>
+	제목:<input type="text" name="title" value=<%= @post.title %>><br>
+	내용:<input type="text" name="content" value=<%= @post.content %>><br>
+	<input type="submit" value="Submit">
+</form>
